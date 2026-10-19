@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Healthcare Executive Analytics</title>
+<style>
+:root{--navy:#102b46;--blue:#2377a8;--teal:#1a9b91;--mint:#dff5ef;--ink:#1e2d3d;--muted:#68798b;--line:#e5edf2;--bg:#f4f7fa;--white:#fff;--amber:#d99527;--purple:#7868c7;--shadow:0 8px 26px rgba(23,55,82,.06)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:linear-gradient(115deg,#102b46,#174a68 72%,#1a7779);color:white;padding:28px clamp(18px,4vw,54px) 30px;position:relative;overflow:hidden}
+header:after{content:"";position:absolute;width:340px;height:340px;border:1px solid rgba(255,255,255,.12);border-radius:50%;right:-70px;top:-160px;box-shadow:0 0 0 32px rgba(255,255,255,.025),0 0 0 72px rgba(255,255,255,.025)}
+.topline{display:flex;align-items:center;gap:10px;font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#bce9e5;font-weight:750}
+.pulse{width:9px;height:9px;border-radius:50%;background:#58d6b9;box-shadow:0 0 0 5px #ffffff12}
+h1{font-size:clamp(28px,4vw,42px);letter-spacing:-.035em;margin:13px 0 8px;font-weight:750}
+header p{max-width:750px;margin:0;color:#d6e6ef;font-size:14px;line-height:1.6}
+.period{display:inline-flex;margin-top:18px;border:1px solid #ffffff35;border-radius:99px;padding:7px 12px;font-size:12px;color:#edf7fa;background:#ffffff0d}
+main{max-width:1500px;margin:0 auto;padding:24px clamp(14px,3vw,42px) 42px}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:26px 0 14px}
+.section-head h2{font-size:17px;margin:0;letter-spacing:-.02em;color:var(--navy)}
+.section-head p{font-size:12px;color:var(--muted);margin:5px 0 0}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px}
+.kpi,.panel,.insight,.takeaway{background:var(--white);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.kpi{padding:18px 18px 17px;min-height:130px;position:relative;overflow:hidden}
+.kpi:after{content:"";position:absolute;right:-18px;bottom:-32px;width:85px;height:85px;border-radius:50%;background:var(--tint,#e7f4f7);opacity:.8}
+.kpi .label{font-size:12px;color:var(--muted);font-weight:650}
+.kpi .value{font-size:clamp(22px,2.4vw,31px);font-weight:780;letter-spacing:-.04em;margin-top:14px;color:var(--navy);position:relative;z-index:1}
+.kpi .sub{font-size:11px;color:var(--muted);margin-top:6px;position:relative;z-index:1}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:15px}
+.panel{padding:19px;min-width:0}
+.span-8{grid-column:span 8}.span-7{grid-column:span 7}.span-6{grid-column:span 6}.span-5{grid-column:span 5}.span-4{grid-column:span 4}.span-12{grid-column:span 12}
+.panel-title{display:flex;align-items:start;justify-content:space-between;gap:10px;margin-bottom:7px}
+.panel h3{font-size:14px;margin:0;color:var(--navy)}
+.panel .desc{font-size:11px;color:var(--muted);line-height:1.5;margin-top:5px}
+.pill{font-size:10px;white-space:nowrap;padding:5px 8px;border-radius:99px;color:#187b75;background:#e7f7f3;font-weight:750}
+.chart{width:100%;min-height:250px;overflow:visible}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.legend{display:flex;gap:13px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:7px}
+.legend span{display:flex;align-items:center;gap:6px}.swatch{width:9px;height:9px;border-radius:3px;display:inline-block}
+.filterbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#eaf1f5;border:1px solid #dce7ed;border-radius:14px;padding:12px;margin-bottom:15px}
+.filterbar .filter-label{font-size:12px;font-weight:750;color:var(--navy);margin-right:4px}
+.filter{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted)}
+select{border:1px solid #d4e0e7;background:white;border-radius:9px;padding:8px 28px 8px 10px;color:var(--ink);font:inherit;font-size:12px;max-width:220px}
+button{border:0;border-radius:9px;background:var(--navy);color:white;font-size:12px;font-weight:700;padding:9px 13px;cursor:pointer}
+button:hover{background:#1d5d7b}
+.summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.insight{padding:17px 18px;box-shadow:none}
+.insight .num{font-size:11px;color:var(--teal);font-weight:800;letter-spacing:.08em}
+.insight h3{font-size:13px;margin:8px 0 6px;color:var(--navy)}
+.insight p{font-size:12px;line-height:1.55;color:#56687a;margin:0}
+.callout{border-left:3px solid var(--teal);background:#f0faf7;padding:11px 13px;border-radius:0 9px 9px 0;color:#335a5c;font-size:12px;line-height:1.55;margin-top:12px}
+.metric-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.mini{background:#f7fafc;border:1px solid var(--line);border-radius:12px;padding:13px}
+.mini .big{font-size:21px;font-weight:780;color:var(--navy);letter-spacing:-.03em}
+.mini .small{font-size:11px;color:var(--muted);margin-top:5px}
+.note{font-size:10px;color:#7c8b98;line-height:1.5;margin-top:12px}
+.takeaways{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.takeaway{padding:17px 18px;display:flex;gap:12px;box-shadow:none}
+.takeaway .icon{width:34px;height:34px;flex:0 0 34px;border-radius:11px;display:grid;place-items:center;background:#e6f5f2;color:#168a7f;font-weight:800}
+.takeaway h3{font-size:13px;margin:1px 0 6px;color:var(--navy)}
+.takeaway p{font-size:12px;line-height:1.55;color:#5b6b7a;margin:0}
+footer{font-size:10px;color:#7a8997;padding:20px 0 0;text-align:center}
+@media(max-width:1050px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.span-8,.span-7,.span-6,.span-5,.span-4{grid-column:span 6}.summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){header{padding-top:24px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{display:block}.panel{margin-bottom:13px}.summary-grid,.takeaways{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column}.kpi{padding:15px;min-height:116px}.kpi .value{font-size:24px}.filterbar{align-items:flex-start}.filter{width:100%;justify-content:space-between}.filter select{flex:1;max-width:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="topline"><span class="pulse"></span> Executive intelligence · Healthcare</div>
+  <h1>Healthcare Performance Overview</h1>
+  <p>A management view of admissions, billing patterns, patient mix, insurance representation and operational review signals.</p>
+  <div class="period">Reporting period · 08 May 2019 – 07 May 2024 (admission dates)</div>
+</header>
+<main>
+  <div class="section-head" style="margin-top:2px">
+    <div><h2>Network at a glance</h2><p>Summary metrics from the completed analysis</p></div>
+    <span class="pill">CLEANED ANALYSIS RESULTS</span>
+  </div>
+  <section class="kpis" id="kpis">
+    <article class="kpi" style="--tint:#dff5ef"><div class="label">Admissions / records</div><div class="value">54,966</div><div class="sub">After duplicate removal</div></article>
+    <article class="kpi" style="--tint:#e5f0fb"><div class="label">Average billing</div><div class="value">25,594.54</div><div class="sub">Per record · billing units not specified</div></article>
+    <article class="kpi" style="--tint:#fff0d8"><div class="label">Average patient age</div><div class="value">51.5 yrs</div><div class="sub">Age range: 13–89 years</div></article>
+    <article class="kpi" style="--tint:#ece8ff"><div class="label">Average length of stay</div><div class="value">15.5 days</div><div class="sub">From admission to discharge</div></article>
+    <article class="kpi" style="--tint:#fbe6e7"><div class="label">Emergency + abnormal results</div><div class="value">6,038</div><div class="sub">Records flagged for review</div></article>
+  </section>
+
+  <div class="section-head"><div><h2>Executive summary</h2><p>The findings most relevant to management attention</p></div></div>
+  <section class="summary-grid">
+    <article class="insight"><div class="num">01 / PATIENT MIX</div><h3>Condition counts are tightly grouped</h3><p>Arthritis has the highest record count (9,218), only two records above Diabetes. No single condition dominates the six-condition mix.</p></article>
+    <article class="insight"><div class="num">02 / BILLING</div><h3>Obesity has the highest average billing</h3><p>Average billing for Obesity is 25,858.56, followed by Diabetes at 25,713.98. Cancer has the lowest average among the six conditions at 25,206.63.</p></article>
+    <article class="insight"><div class="num">03 / AGE</div><h3>Age is not a useful linear billing signal</h3><p>The age–billing correlation is −0.003, indicating virtually no linear relationship in this dataset.</p></article>
+    <article class="insight"><div class="num">04 / COVERAGE</div><h3>Cigna is the most represented insurer</h3><p>Cigna appears in 11,139 records (20.3% of records); this is record representation, not a verified unique-member count.</p></article>
+    <article class="insight"><div class="num">05 / OPERATIONS</div><h3>Emergency cases need a review pathway</h3><p>6,038 records are both Emergency admissions and marked Abnormal on test results. These records may warrant clinical review prioritization.</p></article>
+    <article class="insight"><div class="num">06 / COST MONITORING</div><h3>Monthly average billing fluctuates</h3><p>The monthly values shown range around 24.9k–26.3k in the selected visible months. The notebook output does not expose every monthly value, so a full trend line is not reconstructed here.</p></article>
+  </section>
+
+  <div class="section-head"><div><h2>Business performance</h2><p>Use the available category filters to focus the relevant breakdowns</p></div></div>
+  <div class="filterbar">
+    <span class="filter-label">Explore breakdowns</span>
+    <label class="filter">Medical condition
+      <select id="conditionFilter"><option value="All">All conditions</option></select>
+    </label>
+    <label class="filter">Insurance provider
+      <select id="insuranceFilter"><option value="All">All providers</option></select>
+    </label>
+    <button id="resetBtn" type="button">Reset filters</button>
+  </div>
+  <section class="grid">
+    <article class="panel span-7">
+      <div class="panel-title"><div><h3>Admissions by medical condition</h3><div class="desc">Record count by condition · the most common category is Arthritis</div></div><span class="pill">PATIENT MIX</span></div>
+      <div id="conditionChart" class="chart"></div>
+      <div class="callout" id="conditionFinding">Arthritis leads by count, but the margin over Diabetes is minimal.</div>
+    </article>
+    <article class="panel span-5">
+      <div class="panel-title"><div><h3>Average billing by condition</h3><div class="desc">Average bill associated with records in each condition</div></div><span class="pill">BILLING</span></div>
+      <div id="billingChart" class="chart"></div>
+      <div class="callout" id="billingFinding">Obesity has the highest average billing among the six conditions.</div>
+    </article>
+    <article class="panel span-6">
+      <div class="panel-title"><div><h3>Insurance provider representation</h3><div class="desc">Number of records per provider, not unique covered individuals</div></div><span class="pill">COVERAGE MIX</span></div>
+      <div id="insuranceChart" class="chart"></div>
+      <div class="callout" id="insuranceFinding">Cigna is the most represented provider by record count.</div>
+    </article>
+    <article class="panel span-6">
+      <div class="panel-title"><div><h3>Emergency admissions by month of year</h3><div class="desc">Counts aggregated by calendar month across the available years</div></div><span class="pill">CAPACITY PLANNING</span></div>
+      <div id="emergencyChart" class="chart"></div>
+      <div class="callout">July has the highest count (1,573); February has the lowest (1,452). Use this as a month-of-year comparison, not a year-by-year trend.</div>
+    </article>
+    <article class="panel span-6">
+      <div class="panel-title"><div><h3>High-billing review cohort</h3><div class="desc">Records above the 90th-percentile billing threshold in the analysis</div></div><span class="pill">FINANCE REVIEW</span></div>
+      <div class="metric-pair">
+        <div class="mini"><div class="big">5,497</div><div class="small">High-billing records shown in the notebook output</div></div>
+        <div class="mini"><div class="big">Top 10%</div><div class="small">Threshold definition used in the analysis</div></div>
+      </div>
+      <div class="callout">Review unusually high bills for context and accuracy; a high amount alone does not establish an error or inappropriate charge.</div>
+    </article>
+    <article class="panel span-6">
+      <div class="panel-title"><div><h3>Emergency cases with abnormal test results</h3><div class="desc">Combined operational review signal</div></div><span class="pill">CLINICAL REVIEW</span></div>
+      <div class="metric-pair">
+        <div class="mini"><div class="big">6,038</div><div class="small">Emergency + Abnormal records</div></div>
+        <div class="mini"><div class="big">15.5 days</div><div class="small">Average length of stay across all records</div></div>
+      </div>
+      <div class="callout">Consider a clear review and escalation workflow for emergency records with abnormal results. The dataset does not establish clinical urgency beyond these labels.</div>
+    </article>
+  </section>
+
+  <div class="section-head"><div><h2>Management takeaways</h2><p>Where leadership attention can be most useful</p></div></div>
+  <section class="takeaways">
+    <article class="takeaway"><div class="icon">01</div><div><h3>Maintain balanced condition-level readiness</h3><p>Condition record counts are similar across all six categories. Plan capacity using demand, staffing and clinical service data rather than the top-ranked condition alone.</p></div></article>
+    <article class="takeaway"><div class="icon">02</div><div><h3>Investigate billing drivers, not age alone</h3><p>Age has near-zero linear correlation with billing. Review length of stay, admission type, condition and other available operational factors before drawing cost conclusions.</p></div></article>
+    <article class="takeaway"><div class="icon">03</div><div><h3>Prioritize exception review</h3><p>Route emergency records with abnormal results for appropriate clinical review, and separately examine the high-billing cohort for explainable drivers and data quality.</p></div></article>
+    <article class="takeaway"><div class="icon">04</div><div><h3>Improve coverage reporting</h3><p>The source has no unique patient identifier. Treat insurer counts as record counts and avoid interpreting them as unique covered lives until a reliable identifier is available.</p></div></article>
+  </section>
+  <footer>Source: completed Healthcare Data Analytics notebook. Values shown are limited to results present in the notebook; no patient-level records or unsupported metrics have been fabricated.</footer>
+</main>
+<script>
+const conditions = [
+ {name:"Arthritis",count:9218,bill:25542.900036},
+ {name:"Diabetes",count:9216,bill:25713.975830},
+ {name:"Hypertension",count:9151,bill:25559.810908},
+ {name:"Obesity",count:9146,bill:25858.561177},
+ {name:"Cancer",count:9140,bill:25206.627627},
+ {name:"Asthma",count:9095,bill:25685.105809}
+];
+const insurers = [
+ {name:"Cigna",count:11139},{name:"Medicare",count:11039},
+ {name:"UnitedHealthcare",count:11014},{name:"Blue Cross",count:10952},{name:"Aetna",count:10822}
+];
+const emergency = [
+ {name:"Jan",value:1547},{name:"Feb",value:1452},{name:"Mar",value:1528},{name:"Apr",value:1473},
+ {name:"May",value:1533},{name:"Jun",value:1483},{name:"Jul",value:1573},{name:"Aug",value:1533},
+ {name:"Sep",value:1500},{name:"Oct",value:1490},{name:"Nov",value:1462},{name:"Dec",value:1528}
+];
+const fmt = n => Math.round(n).toLocaleString("en-US");
+const money = n => n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+function svgBars(items, valueKey, color, valueFmt, opts={}) {
+ const W=opts.width||620, rowH=34, top=10, left=opts.left||130, right=54;
+ const H=top+items.length*rowH+12, max=Math.max(...items.map(d=>d[valueKey]))*1.08, plotW=W-left-right;
+ let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${opts.aria||'Bar chart'}">`;
+ items.forEach((d,i)=>{
+  const y=top+i*rowH+5, w=plotW*d[valueKey]/max;
+  s+=`<text x="${left-10}" y="${y+13}" text-anchor="end" font-size="11" fill="#607487">${d.name}</text>`;
+  s+=`<rect x="${left}" y="${y}" width="${Math.max(w,1)}" height="19" rx="5" fill="${color}" opacity="${i===0?1:.82}"><title>${d.name}: ${valueFmt(d[valueKey])}</title></rect>`;
+  s+=`<text x="${Math.min(left+w+7,W-right+8)}" y="${y+13}" font-size="10.5" fill="#40566b">${valueFmt(d[valueKey])}</text>`;
+ });
+ s+=`</svg>`; return s;
+}
+function svgColumns(items, key, color) {
+ const W=620,H=280,left=34,right=12,top=20,bottom=42,plotH=H-top-bottom,plotW=W-left-right;
+ const max=Math.max(...items.map(d=>d[key]))*1.12, step=plotW/items.length, bw=step*.56;
+ let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Emergency admissions by month">`;
+ [0,.25,.5,.75,1].forEach(p=>{let y=top+plotH*(1-p);s+=`<line x1="${left}" y1="${y}" x2="${W-right}" y2="${y}" stroke="#e8eef2"/><text x="${left-7}" y="${y+4}" text-anchor="end" font-size="10" fill="#8392a0">${Math.round(max*p)}</text>`});
+ items.forEach((d,i)=>{let x=left+i*step+(step-bw)/2,h=plotH*d[key]/max,y=top+plotH-h;
+ s+=`<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="4" fill="${color}" opacity="${d.name==='Jul'?1:.78}"><title>${d.name}: ${fmt(d[key])} emergency records</title></rect>`;
+ s+=`<text x="${x+bw/2}" y="${H-18}" text-anchor="middle" font-size="10.5" fill="#68798b">${d.name}</text>`;});
+ return s+"</svg>";
+}
+function render(){
+ const c=document.getElementById("conditionFilter").value;
+ const ins=document.getElementById("insuranceFilter").value;
+ const cdata=conditions.filter(d=>c==="All"||d.name===c);
+ document.getElementById("conditionChart").innerHTML=svgBars(cdata,"count","#2478a8",fmt,{left:118,aria:"Records by medical condition"});
+ document.getElementById("billingChart").innerHTML=svgBars(cdata.slice().sort((a,b)=>b.bill-a.bill),"bill","#1b9b91",money,{left:112,aria:"Average billing by medical condition"});
+ if(c==="All"){
+  document.getElementById("conditionFinding").textContent="Arthritis leads by count (9,218), just two records above Diabetes.";
+  const top=[...conditions].sort((a,b)=>b.bill-a.bill)[0];
+  document.getElementById("billingFinding").textContent=`${top.name} has the highest average billing at ${money(top.bill)}; Cancer is lowest at ${money(Math.min(...conditions.map(d=>d.bill)))}.`;
+ } else {
+  const d=conditions.find(x=>x.name===c);
+  document.getElementById("conditionFinding").textContent=`${d.name}: ${fmt(d.count)} records in the analysis.`;
+  document.getElementById("billingFinding").textContent=`${d.name}: average billing ${money(d.bill)} per record.`;
+ }
+ const idata=insurers.filter(d=>ins==="All"||d.name===ins).sort((a,b)=>b.count-a.count);
+ document.getElementById("insuranceChart").innerHTML=svgBars(idata,"count","#7868c7",fmt,{left:154,aria:"Records by insurance provider"});
+ const topIns=[...insurers].sort((a,b)=>b.count-a.count)[0];
+ document.getElementById("insuranceFinding").textContent=ins==="All"?`${topIns.name} is highest by record count (${fmt(topIns.count)}); unique covered individuals cannot be confirmed.`:`${ins}: ${fmt(insurers.find(d=>d.name===ins).count)} records. This is not a unique-member count.`;
+ document.getElementById("emergencyChart").innerHTML=svgColumns(emergency,"value","#2478a8");
+}
+const cf=document.getElementById("conditionFilter"), inf=document.getElementById("insuranceFilter");
+conditions.forEach(d=>{const o=document.createElement("option");o.value=d.name;o.textContent=d.name;cf.appendChild(o)});
+insurers.forEach(d=>{const o=document.createElement("option");o.value=d.name;o.textContent=d.name;inf.appendChild(o)});
+cf.addEventListener("change",render); inf.addEventListener("change",render);
+document.getElementById("resetBtn").addEventListener("click",()=>{cf.value="All";inf.value="All";render()});
+render();
+</script>
+</body>
+</html>

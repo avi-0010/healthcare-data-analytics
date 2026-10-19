@@ -1,0 +1,11 @@
+# Local source data (do not commit unless explicitly licensed and safe to share)
+healthcare_dataset.csv
+data/*.csv
+
+# Python/Jupyter artifacts
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+.env

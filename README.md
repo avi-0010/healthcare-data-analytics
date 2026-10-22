@@ -49,7 +49,7 @@ Open `healthcare_executive_dashboard.html` directly in a modern browser. It does
 - Pandas and NumPy
 - Matplotlib
 - Jupyter Notebook
-- HTML, CSS and JavaScript
+- Claude (AI-assisted dashboard development)
 
 ## Limitations
 

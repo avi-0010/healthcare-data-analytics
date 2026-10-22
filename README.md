@@ -23,7 +23,7 @@ These are dataset-level findings, not clinical recommendations or conclusions ab
 ## Files
 
 - `healthcare_analysis.ipynb` — Jupyter Notebook source. Outputs have been cleared in this repository copy to avoid publishing rendered patient-level rows/names.
-- `healthcare_executive_dashboard.html` — self-contained executive dashboard; open directly in a browser.
+- `Healthcare Analytics Dashboard.html` — self-contained executive dashboard; open directly in a browser.
 - `data/README.md` — instructions for placing the source CSV locally.
 - `requirements.txt` — Python dependencies for the notebook.
 
